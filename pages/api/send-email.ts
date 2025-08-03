@@ -29,15 +29,15 @@ export default async function handler(
     },
   });
 
-  const { to, subject, message } = req.body;
-  console.log("📩 Received email data:", { to, subject, message });
+  const { to, subject, text } = req.body; // ✅ fix here
+  console.log("📩 Received email data:", { to, subject, text });
 
   try {
     await transporter.sendMail({
       from: `"My App" <gokultupakula9494@gmail.com>`,
       to,
       subject,
-      html: `<p>${message}</p>`,
+      html: `<pre>${text}</pre>`, // ✅ using <pre> to preserve newlines
     });
 
     return res.status(200).json({ message: "✅ Email sent!" });
