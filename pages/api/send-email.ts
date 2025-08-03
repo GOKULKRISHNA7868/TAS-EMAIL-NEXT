@@ -5,16 +5,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // 🔁 Enable CORS for all origins (for local dev)
+  // ✅ Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // ⚠️ Handle preflight (OPTIONS) request
+  // ✅ Handle OPTIONS preflight request
   if (req.method === "OPTIONS") {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
 
+  // ✅ Only allow POST requests
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Only POST allowed" });
   }
@@ -23,15 +25,16 @@ export default async function handler(
     service: "gmail",
     auth: {
       user: "gokultupakula9494@gmail.com",
-      pass: "vjvw dept gzig daeu",
+      pass: "vjvw dept gzig daeu", // 🔒 Use .env in production
     },
   });
 
   const { to, subject, message } = req.body;
+  console.log("📩 Received email data:", { to, subject, message });
 
   try {
     await transporter.sendMail({
-      from: `"My App" <your@gmail.com>`,
+      from: `"My App" <gokultupakula9494@gmail.com>`,
       to,
       subject,
       html: `<p>${message}</p>`,
