@@ -34,7 +34,7 @@ export default async function handler(
 
   try {
     await transporter.sendMail({
-      from: `"My App" <gokultupakula9494@gmail.com>`,
+      from: `"TAS" <gokultupakula9494@gmail.com>`,
       to,
       subject,
       html: `<pre>${text}</pre>`, // ✅ using <pre> to preserve newlines
